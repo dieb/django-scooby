@@ -68,7 +68,7 @@ class Notice(models.Model):
 
     @property
     def subject_body_path(self):
-        return os.path.join(self.notice_type.templates_path, 'subject.txt')
+        return os.path.join(self.notice_type.templates_path, 'body.txt')
 
     def __unicode__(self):
         return u'%s (%s)' % (self.notice_type.name, self.recipient.username)
