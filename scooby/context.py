@@ -16,8 +16,6 @@ class NoticeContext(Context):
         if not settings.MEDIA_URL.startswith('http'):
             settings.MEDIA_URL = u'%s%s' % (site_url, settings.MEDIA_URL)
 
-        set_script_prefix(site_url)
-
         self.update({
             'site': site,
             'site_url': site_url,

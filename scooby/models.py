@@ -81,7 +81,12 @@ class Notice(models.Model):
         context = NoticeContext({'recipient': self.recipient})
         context.update(passed_context)
 
-        self.email_subject = render_to_string(self.subject_template_path, context)
+        if hasattr(settings, 'EMAIL_NOTIFICATION_SUBJECT_PREFIX'):
+            subject_prefix = settings.EMAIL_NOTIFICATION_SUBJECT_PREFIX
+        else:
+            subject_prefix = ''
+
+        self.email_subject = subject_prefix + render_to_string(self.subject_template_path, context)
         self.email_body    = render_to_string(self.subject_body_path, context)
         self.save()
 
