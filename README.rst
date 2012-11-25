@@ -12,7 +12,7 @@ Features
 Installation
 ------------
 
-Add it to your PYTHONPATH
+For now please clone and add the 'scooby' folder to your PYTHONPATH. Once it reaches some stability I will definitely make it available via pip.
 
 Settings
 --------
