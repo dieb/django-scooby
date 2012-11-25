@@ -34,7 +34,7 @@ Set a default from address for sending emails in your settings.py:
 
 .. code-block:: python
 
-    DEFAULT_FROM_EMAIL = 'no-repy@mydomain.com'
+    DEFAULT_FROM_EMAIL = 'no-reply@mydomain.com'
 
 This will be used when you don't specify the sender when sending notifications.
 
@@ -46,18 +46,69 @@ notifications whenever a new announcement is added.
 
 First you need to name your notice, say ``announcement_added``.
 
-Scooby works with a fixed folder structure for the emails. Simply create it with: ::
+Where to put the templates
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Scooby works with a fixed folder for the emails, which is ``appname/templates/notices/notice_name``. For instance, in our example, we must have: ::
+
+    » cd announcements && tree
+    .
+    ├── __init__.py
+    ├── admin.py
+    ├── forms.py
+    ├── models.py
+    ├── templates
+    │   └── notices
+    │       └── announcement_added
+    │           ├── body.txt
+    │           └── subject.txt
+    ├── tests.py
+    ├── urls.py
+    ├── views.py
+
+Notice the ``templates/notices/announcement_added`` folder. In our example, we may simply create it with: ::
 
     $ cd announcements
     $ mkdir -p templates/notices/announcement_added
     $ vi templates/notices/announcement_added/subject.txt
     $ vi templates/notices/announcement_added/body.txt
 
-Note that ``subject.txt`` will be your email subject title and of course ``body.txt`` the body.
+Template variables
+~~~~~~~~~~~~~~~~~~
 
-These templates receive at least one variable named ``recepient`` which contains the User receiving this notification.
+The templates (subject.txt, body.txt) have access the following variables:
 
-They also receive extra variables you pass when creating the new notification:
+- ``recipient``: the User receiving this notification.
+- ``site``: name of the current ``Site``
+- ``site_url``: URL for the current ``Site`` (e.g. http://www.example.com)
+- ``STATIC_URL`` and ``MEDIA_URL`` (just like Django)
+- Extra variables can be passed on the ``scooby.send()``
+
+With this in mind, we can write a simple email for our notification as follows.
+
+subject.txt:
+
+::
+
+    New announcement
+
+
+body.txt:
+
+::
+
+    Hello {{ recipient.get_full_name }},
+
+    A new announcement was just published:
+
+    {{ announcement.text }}
+
+    View it online: {{ site_url }}{% url announcements.views.show announcement.id %}
+
+Wiring it up
+~~~~~~~~~~~~
+
+With the templates on the correct folder, you may send the notifications with:
 
 .. code-block:: python
 
@@ -68,27 +119,8 @@ They also receive extra variables you pass when creating the new notification:
         announcement = Announcement()
         announcement.save()
 
-        notification_send('announcement_added', user, {'announcement': announcement})
+        notification_send('announcement_added',
+                          user,
+                          {'announcement': announcement})
 
-
-Now write a pretty subject.txt:
-
-::
-
-    New announcement
-
-
-Also a body:
-
-::
-
-    Hello {{ recipient.get_full_name }},
-
-    A new announcement was just published:
-
-    {{ announcement.text }}
-
-    View it online: http://{{ current_site }}{% url announcements.views.show announcement.id %}
-
-
-And that's all.
+Note that you can pass extra such as `announcement` for including more information on the template.
