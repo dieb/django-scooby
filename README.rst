@@ -129,22 +129,12 @@ Note that you can pass extra data to the template (such as ``announcement``).
 API
 ---
 
-``scooby.send()``
+``scooby.send(notice_type_name, recipient[, context[, sender=None]])``
 ~~~~~~~~~~~~~~~~~
-
-.. function:: send
-   :module: scooby
 
 Blocking call that sends a notification to a single user or a list of users.
 
-:py:attr:`notice_type_name`
-    Name of the notice. Should match a folder 'notice/<notice_type_name>' on the template path.
-
-:py:attr:`recipient`
-    User instance or list of User instances.
-
-:py:attr:`context`
-    Context data to pass to the notice template.
-
-:py:attr:`sender`
-    (Optional) Email's from field. If not present, notifications will be sent from settings.DEFAULT_FROM_EMAIL
+- ``notice_type_name``: name of the notice. Should match a folder 'notice/<notice_type_name>' on the template path
+- ``recipient``: User instance or list of User instances
+- ``context``: context data to pass to the notice template
+- ``sender``: email's from field. If not present, notifications will be sent from settings.DEFAULT_FROM_EMAIL
