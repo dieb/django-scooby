@@ -136,5 +136,5 @@ Blocking call that sends a notification to a single user or a list of users.
 
 - ``notice_type_name``: name of the notice. Should match a folder 'notice/<notice_type_name>' on the template path
 - ``recipient``: User instance or list of User instances
-- ``context``: context data to pass to the notice template
-- ``sender``: email's from field. If not present, notifications will be sent from settings.DEFAULT_FROM_EMAIL
+- ``context``: context data dict passed to the notice template
+- ``sender``: email's from field. If not present, notices will use settings.DEFAULT_FROM_EMAIL
