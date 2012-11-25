@@ -130,7 +130,7 @@ API
 ---
 
 ``scooby.send(notice_type_name, recipient[, context[, sender=None]])``
-~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Blocking call that sends a notification to a single user or a list of users.
 
