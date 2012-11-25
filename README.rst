@@ -7,6 +7,7 @@ Features
 --------
 
 - Sending notification emails
+- No dependencies
 
 Installation
 ------------
@@ -45,7 +46,7 @@ notifications whenever a new announcement is added.
 
 First you need to name your new announcement. For this, we will call it ``announcement_added``.
 
-Scooby works with a fixed folder structure for the emails. To create it: ::
+Scooby works with a fixed folder structure for the emails. Simply create it with: ::
 
     $ cd announcements
     $ mkdir -p templates/notices/announcement_added
@@ -90,4 +91,4 @@ Also a body:
     View it online: http://{{ current_site }}{% url announcements.views.show announcement.id %}
 
 
-And that's all folks.
+And that's all.
