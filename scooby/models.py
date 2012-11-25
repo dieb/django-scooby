@@ -56,6 +56,8 @@ class Notice(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     send_date = models.DateTimeField(blank=True, null=True)
 
+    objects = NoticeManager()
+
     @property
     def sent(self):
         return self.send_date != None
@@ -86,10 +88,12 @@ class Notice(models.Model):
         email = EmailMessage(self.email_subject,
                              self.email_body,
                              self.sender,
-                             recipients=[self.recipient.email])
+                             [self.recipient.email])
         try:
-            msg.send()
+            email.send()
             self.send_date = datetime.datetime.now()
             self.save()
-        except smtplib.SMTPException:
-            pass
+        except smtplib.SMTPException as why:
+            log.exception(why)
+
+        return self.sent
