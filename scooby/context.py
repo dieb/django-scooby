@@ -10,8 +10,8 @@ class NoticeContext(Context):
         super(NoticeContext, self).__init__(dict_, **kwargs)
 
         protocol = getattr(settings, 'DEFAULT_HTTP_PROTOCOL', 'http')
-        current_site = Site.objects.get_current()
-        site_url = u"%s://%s" % (protocol, unicode(current_site.domain))
+        site = Site.objects.get_current()
+        site_url = u"%s://%s" % (protocol, unicode(site.domain))
 
         if not settings.MEDIA_URL.startswith('http'):
             settings.MEDIA_URL = u'%s%s' % (site_url, settings.MEDIA_URL)
@@ -19,8 +19,7 @@ class NoticeContext(Context):
         set_script_prefix(site_url)
 
         self.update({
-            'current_site': current_site,  # backward-compatibility
-            'site': current_site,
+            'site': site,
             'site_url': site_url,
             'STATIC_URL': settings.STATIC_URL,
         })
