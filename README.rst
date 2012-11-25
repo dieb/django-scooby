@@ -34,7 +34,7 @@ Set a default from address for sending emails in your settings.py:
 
 .. code-block:: python
 
-    DEFAULT_FROM_EMAIL = 'no-reply@mydomain.com'
+    DEFAULT_FROM_EMAIL = 'notices@mydomain.com'
 
 This will be used when you don't specify the sender when sending notifications.
 
@@ -124,3 +124,27 @@ With the templates on the correct folder, you may send the notifications with:
                           {'announcement': announcement})
 
 Note that you can pass extra data to the template (such as ``announcement``).
+
+
+API
+---
+
+``scooby.send()``
+~~~~~~~~~~~~~~~~~
+
+.. function:: send
+   :module: scooby
+
+Blocking call that sends a notification to a single user or a list of users.
+
+:py:attr:`notice_type_name`
+    Name of the notice. Should match a folder 'notice/<notice_type_name>' on the template path.
+
+:py:attr:`recipient`
+    User instance or list of User instances.
+
+:py:attr:`context`
+    Context data to pass to the notice template.
+
+:py:attr:`sender`
+    (Optional) Email's from field. If not present, notifications will be sent from settings.DEFAULT_FROM_EMAIL
