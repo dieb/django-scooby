@@ -44,7 +44,7 @@ Usage
 Suppose you have an application in your project called ``announcements`` and you want to send email
 notifications whenever a new announcement is added.
 
-First you need to name your new announcement. For this, we will call it ``announcement_added``.
+First you need to name your notice, say ``announcement_added``.
 
 Scooby works with a fixed folder structure for the emails. Simply create it with: ::
 
