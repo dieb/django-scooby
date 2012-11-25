@@ -123,4 +123,4 @@ With the templates on the correct folder, you may send the notifications with:
                           user,
                           {'announcement': announcement})
 
-Note that you can pass extra such as `announcement` for including more information on the template.
+Note that you can pass extra data to the template (such as ``announcement``).
