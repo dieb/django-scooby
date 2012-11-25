@@ -9,6 +9,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.mail.message import EmailMessage
 from django.template.loader import render_to_string
+from django.utils.translation import ugettext_noop as _
 
 from .context import NoticeContext
 
