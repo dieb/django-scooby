@@ -86,7 +86,7 @@ class Notice(models.Model):
         else:
             subject_prefix = ''
 
-        self.email_subject = subject_prefix + render_to_string(self.subject_template_path, context)
+        self.email_subject = (subject_prefix + render_to_string(self.subject_template_path, context)).strip()
         self.email_body    = render_to_string(self.subject_body_path, context)
         self.save()
 
