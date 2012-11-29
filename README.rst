@@ -7,7 +7,7 @@ Features
 --------
 
 - Sending notification emails
-- No dependencies
+- Management of sent notices
 
 Installation
 ------------
@@ -140,3 +140,8 @@ Blocking call that sends a notification to a single user or a list of users.
 - ``recipient``: User instance or list of User instances
 - ``context``: context data dict passed to the notice template
 - ``sender``: email's from field. If not present, notices will use settings.DEFAULT_FROM_EMAIL
+
+Credits
+-------
+
+This project was highly inspired and based on `jtauber <https://github.com/jtauber/django-notification>`_ and `synasius django-notification <https://github.com/synasius/django-notification>`_ projects.
