@@ -144,4 +144,4 @@ Blocking call that sends a notification to a single user or a list of users.
 Credits
 -------
 
-This project was highly inspired and based on `jtauber <https://github.com/jtauber/django-notification>`_ and `synasius django-notification <https://github.com/synasius/django-notification>`_ projects.
+This project was highly inspired and based on `jtauber <https://github.com/jtauber/django-notification>`_ and `synasius <https://github.com/synasius/django-notification>`_ django-notification projects.
