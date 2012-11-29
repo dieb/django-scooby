@@ -30,6 +30,8 @@ Add ``scooby`` to the ``INSTALLED_APPS`` in your settings.py file of your projec
         'scooby',
         )
 
+Run ``manage.py syncdb`` afterwards so that required models are created.
+
 Set a default from address for sending emails in your settings.py:
 
 .. code-block:: python
