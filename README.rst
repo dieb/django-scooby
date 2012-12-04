@@ -63,6 +63,7 @@ Scooby works with a fixed folder for the emails, which is ``appname/templates/no
     │   └── notices
     │       └── announcement_added
     │           ├── body.txt
+    │           ├── body.html
     │           └── subject.txt
     ├── tests.py
     ├── urls.py
@@ -74,11 +75,12 @@ Notice the ``templates/notices/announcement_added`` folder. In our example, we m
     $ mkdir -p templates/notices/announcement_added
     $ vi templates/notices/announcement_added/subject.txt
     $ vi templates/notices/announcement_added/body.txt
+    $ vi templates/notices/announcement_added/body.html
 
 Template variables
 ~~~~~~~~~~~~~~~~~~
 
-The templates (subject.txt, body.txt) have access the following variables:
+The templates (subject.txt, body.txt, body.html) have access the following variables:
 
 - ``recipient``: the User receiving this notification.
 - ``site``: name of the current ``Site``
@@ -106,6 +108,10 @@ body.txt:
     {{ announcement.text }}
 
     View it online: {{ site_url }}{% url announcements.views.show announcement.id %}
+
+
+The ``body.html`` template is optional.
+
 
 Wiring it up
 ~~~~~~~~~~~~
