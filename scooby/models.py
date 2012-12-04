@@ -1,4 +1,4 @@
-# -*- coin
+# -*- coding: utf-8 -*-
 import os
 import smtplib
 import datetime
@@ -7,8 +7,11 @@ import logging
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.mail.message import EmailMessage
-from django.template.loader import render_to_string
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+
+from django.template import TemplateDoesNotExist
+from django.template.loader import render_to_string, get_template
+
 from django.utils.translation import ugettext_noop as _
 
 from .context import NoticeContext
@@ -16,8 +19,11 @@ from .context import NoticeContext
 log = logging.getLogger(__name__)
 
 
+__all__ = ('NoticeType', 'Notice')
+
+
 class NoticeType(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, primary_key=True)
 
     @property
     def templates_path(self):
@@ -51,7 +57,8 @@ class Notice(models.Model):
     sender = models.EmailField(blank=True, null=True)
 
     email_subject = models.TextField(blank=True, null=True)
-    email_body = models.TextField(blank=True, null=True)
+    email_txt_body = models.TextField(blank=True, null=True)
+    email_html_body = models.TextField(blank=True, null=True)
 
     created = models.DateTimeField(auto_now_add=True)
     send_date = models.DateTimeField(blank=True, null=True)
@@ -61,14 +68,6 @@ class Notice(models.Model):
     @property
     def sent(self):
         return self.send_date != None
-
-    @property
-    def subject_template_path(self):
-        return os.path.join(self.notice_type.templates_path, 'subject.txt')
-
-    @property
-    def subject_body_path(self):
-        return os.path.join(self.notice_type.templates_path, 'body.txt')
 
     def __unicode__(self):
         return u'%s (%s)' % (self.notice_type.name, self.recipient.username)
@@ -86,14 +85,30 @@ class Notice(models.Model):
         else:
             subject_prefix = ''
 
-        self.email_subject = (subject_prefix + render_to_string(self.subject_template_path, context)).strip()
-        self.email_body    = render_to_string(self.subject_body_path, context)
-        self.save()
+        recipients = [self.recipient.email]
 
-        email = EmailMessage(self.email_subject,
-                             self.email_body,
-                             self.sender,
-                             [self.recipient.email])
+        txt_subject  = os.path.join(self.notice_type.templates_path, 'subject.txt')
+        txt_body     = os.path.join(self.notice_type.templates_path, 'body.txt')
+        html_body    = os.path.join(self.notice_type.templates_path, 'body.html')
+
+        self.email_subject  = (subject_prefix + render_to_string(txt_subject, context)).strip()
+        self.email_txt_body = render_to_string(txt_body, context)
+
+        try:
+            get_template(html_body)
+            has_html_body = True
+        except TemplateDoesNotExist:
+            has_html_body = False
+
+        if has_html_body:
+            self.email_html_body = render_to_string(html_body, context)
+            email = EmailMultiAlternatives(self.email_subject, self.email_txt_body,
+                                           self.sender, recipients)
+            email.attach_alternative(self.email_html_body, "text/html")
+        else:
+            email = EmailMessage(self.email_subject, self.email_txt_body,
+                                 self.sender, recipients)
+
         try:
             email.send()
             self.send_date = datetime.datetime.now()
