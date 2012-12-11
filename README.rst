@@ -32,13 +32,18 @@ Add ``scooby`` to the ``INSTALLED_APPS`` in your settings.py file of your projec
 
 Run ``manage.py syncdb`` afterwards so that required models are created.
 
-Set a default from address for sending emails in your settings.py:
+Setup `email settings<https://docs.djangoproject.com/en/dev/topics/email/>`_ if you havent already:
 
 .. code-block:: python
 
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'your_email_host'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_HOST_USER = 'your_user'
+    EMAIL_HOST_PASSWORD = 'your_password'
+    EMAIL_NOTIFICATION_SUBJECT_PREFIX = '[MyApp] '
     DEFAULT_FROM_EMAIL = 'notices@mydomain.com'
-
-This will be used when you don't specify the sender when sending notifications.
 
 Usage
 -----
