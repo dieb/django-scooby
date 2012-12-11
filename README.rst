@@ -26,13 +26,12 @@ Add ``scooby`` to the ``INSTALLED_APPS`` in your settings.py file of your projec
         'django.contrib.sessions',
         'django.contrib.sites',
         ...
-
         'scooby',
         )
 
 Run ``manage.py syncdb`` afterwards so that required models are created.
 
-Setup `email settings<https://docs.djangoproject.com/en/dev/topics/email/>`_ if you havent already:
+Setup `email settings <https://docs.djangoproject.com/en/dev/topics/email/>`_ if you havent already:
 
 .. code-block:: python
 
