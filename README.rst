@@ -79,13 +79,13 @@ Notice the ``templates/notices/announcement_added`` folder. In our example, we m
 Template variables
 ~~~~~~~~~~~~~~~~~~
 
-The templates (subject.txt, body.txt, body.html) have access the following variables:
+The templates have access the following variables:
 
 - ``recipient``: the User receiving this notification.
 - ``site``: name of the current ``Site``
 - ``site_url``: URL for the current ``Site`` (e.g. http://www.example.com)
 - ``STATIC_URL`` and ``MEDIA_URL`` (just like Django)
-- Extra variables can be passed on the ``scooby.send()``
+- Any extra variables can be passed on the ``context`` parameter of ``scooby.send()``
 
 With this in mind, we write a simple email for our notification as follows.
 
@@ -109,7 +109,7 @@ body.txt:
     View it online: {{ site_url }}{% url announcements.views.show announcement.id %}
 
 
-The ``body.html`` template is optional.
+``body.html`` is optional and ommited here.
 
 
 Wiring it up
@@ -130,11 +130,8 @@ With the templates on the correct folder, you may send the notifications with:
                           user,
                           {'announcement': announcement})
 
-Note that you can pass extra data to the template (such as ``announcement``).
-
-
-API
----
+Send functions (API)
+--------------------
 
 ``scooby.send(notice_type_name, recipient[, context[, sender=None]])``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -143,7 +140,7 @@ Blocking call that sends a notification to a single user or a list of users.
 
 - ``notice_type_name``: name of the notice. Should match a folder 'notice/<notice_type_name>' on the template path
 - ``recipient``: User instance or list of User instances
-- ``context``: context data dict passed to the notice template
+- ``context``: context data dict passed to the notice template. Pass extra variables to the template here.
 - ``sender``: email's from field. If not present, notices will use settings.DEFAULT_FROM_EMAIL
 
 Credits
