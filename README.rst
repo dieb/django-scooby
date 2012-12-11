@@ -47,15 +47,13 @@ Setup `email settings <https://docs.djangoproject.com/en/dev/topics/email/>`_ if
 Usage
 -----
 
-Suppose you have an application in your project called ``announcements`` and you want to send email
-notifications whenever a new announcement is added.
-
-First you need to name your notice, say ``announcement_added``.
+Suppose you have an application called ``announcements`` and you want to send email
+notifications whenever a new announcement is added. First lets name the notice, say ``announcement_added``.
 
 Where to put the templates
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Scooby works with a fixed folder for the emails, which is ``appname/templates/notices/notice_name``. For instance, in our example, we must have: ::
+The email templates must be inside ``appname/templates/notices/notice_name``. For instance, in our example we must have: ::
 
     » cd announcements && tree
     .
@@ -66,9 +64,9 @@ Scooby works with a fixed folder for the emails, which is ``appname/templates/no
     ├── templates
     │   └── notices
     │       └── announcement_added
-    │           ├── body.txt
-    │           ├── body.html
-    │           └── subject.txt
+    │           ├── body.txt             <--- Body of the email in plain text
+    │           ├── body.html            <--- Body of the email (HTML version) (optional)
+    │           └── subject.txt          <--- Subject of the email
     ├── tests.py
     ├── urls.py
     ├── views.py
@@ -77,9 +75,6 @@ Notice the ``templates/notices/announcement_added`` folder. In our example, we m
 
     $ cd announcements
     $ mkdir -p templates/notices/announcement_added
-    $ vi templates/notices/announcement_added/subject.txt
-    $ vi templates/notices/announcement_added/body.txt
-    $ vi templates/notices/announcement_added/body.html
 
 Template variables
 ~~~~~~~~~~~~~~~~~~
@@ -92,7 +87,7 @@ The templates (subject.txt, body.txt, body.html) have access the following varia
 - ``STATIC_URL`` and ``MEDIA_URL`` (just like Django)
 - Extra variables can be passed on the ``scooby.send()``
 
-With this in mind, we can write a simple email for our notification as follows.
+With this in mind, we write a simple email for our notification as follows.
 
 subject.txt:
 
