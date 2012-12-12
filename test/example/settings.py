@@ -50,7 +50,7 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
@@ -116,11 +116,26 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.flatpages',
     'scooby',
 
     # Test apps
     'emails',
 )
+
+# CELERY SETTINGS
+try:
+    import djcelery
+    djcelery.setup_loader()
+    INSTALLED_APPS = tuple(list(INSTALLED_APPS) + ['djcelery'])
+except ImportError:
+    pass
+
+CELERY_ALWAYS_EAGER = True
+CELERY_EAGER_PROPAGATES_EXCEPTIONS = True
+TEST_RUNNER = 'djcelery.contrib.test_runner.CeleryTestSuiteRunner'
+
 
 LOGGING = {
     'version': 1,

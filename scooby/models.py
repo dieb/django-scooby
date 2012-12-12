@@ -117,3 +117,10 @@ class Notice(models.Model):
             log.exception(why)
 
         return self.sent
+
+    def queue(self, passed_context):
+        from django.conf import settings
+        assert 'djcelery' in settings.INSTALLED_APPS, "'djcelery' must be installed on your app before using queue()."
+        from scooby.celery.tasks import send_notice
+
+        return send_notice.delay(self, passed_context)

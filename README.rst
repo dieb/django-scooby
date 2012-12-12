@@ -6,8 +6,9 @@ django-scooby is a minimalistic Django application for sending email notificatio
 Features
 --------
 
-- Sending notification emails
+- Sending notification emails on plain text and HTML
 - Management of sent notices
+- Sending email on the background (Powered by celery)
 
 Installation
 ------------
@@ -142,6 +143,19 @@ Blocking call that sends a notification to a single user or a list of users.
 - ``recipient``: User instance or list of User instances
 - ``context``: context data dict passed to the notice template. Pass extra variables to the template here.
 - ``sender``: email's from field. If not present, notices will use settings.DEFAULT_FROM_EMAIL
+
+``scooby.queue(notice_type_name, recipient[, context[, sender=None]])``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Background call that sends a notification to a single user or a list of users.
+
+- ``notice_type_name``: name of the notice. Should match a folder 'notice/<notice_type_name>' on the template path
+- ``recipient``: User instance or list of User instances
+- ``context``: context data dict passed to the notice template. Pass extra variables to the template here.
+- ``sender``: email's from field. If not present, notices will use settings.DEFAULT_FROM_EMAIL
+
+Requirements: `django-celery <https://github.com/celery/django-celery/>`_ must be installed appropriately. For now, it also
+requires RabbitMQ to be running.
 
 Credits
 -------
