@@ -8,7 +8,7 @@ Features
 
 - Sending notification emails on plain text and HTML
 - Management of sent notices
-- Sending email on the background (Powered by celery)
+- Sending emails on the background (powered by celery)
 
 Installation
 ------------
