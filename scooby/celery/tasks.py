@@ -5,7 +5,7 @@ from celery import Celery
 
 celery = Celery('scooby', backend='amqp', broker='amqp://guest@localhost//')
 
-if getattr(settings, 'CELERY_ALWAYS_EAGER'):
+if getattr(settings, 'CELERY_ALWAYS_EAGER', None):
     del celery
     celery = Celery('scooby') # Rewrite
     celery.conf.update(CELERY_ALWAYS_EAGER=True)
