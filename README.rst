@@ -158,9 +158,11 @@ Requirements for queueing:
 
 - `django-celery <https://github.com/celery/django-celery/>`_ must be installed appropriately.
 - RabbitMQ must be running on localhost
-- There must be at least one worker running for 'scooby.celery.tasks': ::
+- There must be at least one worker running for 'scooby.celery.tasks':
 
-  ``python manage.py celery -A scooby.celery.tasks worker --loglevel=INFO``.
+.. code-block:: python
+
+  python manage.py celery -A scooby.celery.tasks worker --loglevel=INFO
 
 Credits
 -------
