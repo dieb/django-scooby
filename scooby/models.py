@@ -21,6 +21,8 @@ log = logging.getLogger(__name__)
 
 __all__ = ('NoticeType', 'Notice')
 
+AUTH_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
+
 
 class NoticeType(models.Model):
     name = models.CharField(max_length=100, primary_key=True)
@@ -53,7 +55,7 @@ class NoticeManager(models.Manager):
 class Notice(models.Model):
     notice_type = models.ForeignKey(NoticeType)
 
-    recipient = models.ForeignKey(User)
+    recipient = models.ForeignKey(AUTH_USER_MODEL)
     sender = models.EmailField(blank=True, null=True)
 
     email_subject = models.TextField(blank=True, null=True)
